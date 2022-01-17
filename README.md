@@ -1,6 +1,6 @@
 - 👋 Hi, I’m @Sudharmabg
 - 👀 I’m interested in Data Science , Artificial Intelligence and Machine Learning 
-- 🌱 I’m currently learning Java Full Stack 
+- 🌱 I’m currently learning Data Science Full Stack 
 - 💞️ I’m looking to collaborate on Deep Learning
 
 <!---
