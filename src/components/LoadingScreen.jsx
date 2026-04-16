@@ -51,16 +51,17 @@ export default function LoadingScreen({ onComplete }) {
             Portfolio
           </div>
 
-          {/* Center radar loader */}
-          <div className="flex-1 flex items-center justify-center">
-            <div className="radar-loader">
-              <span />
-              <div className="text-muted font-mono text-xl z-10 opacity-50">
-                {String(count).padStart(3, '0')}%
-              </div>
+          {/* Center square loader */}
+          <div className="flex-1 flex flex-col items-center justify-center gap-10">
+            <div className="loader">
+              {Array.from({ length: 7 }).map((_, i) => (
+                <div key={i} className="loader-square" />
+              ))}
+            </div>
+            <div className="text-muted font-mono text-sm tracking-widest opacity-60">
+              {count === 100 ? '100' : String(count).padStart(2, '0')}%
             </div>
           </div>
-
         </motion.div>
       )}
     </AnimatePresence>
