@@ -10,7 +10,7 @@ export default function GlowButton({ href, children, variant = 'primary', icon: 
   return (
     <a
       href={href}
-      className={`group relative inline-flex items-center gap-4 rounded-full border py-1.5 pr-1.5 pl-6 text-sm font-medium transition-colors duration-300 ${variants[variant]}`}
+      className={`group relative inline-flex items-center gap-4 rounded-full border py-1.5 pr-1.5 pl-6 text-sm font-medium transition-[color,background-color,border-color,scale] duration-300 active:scale-[0.97] active:duration-100 ${variants[variant]}`}
       {...rest}
     >
       {children}

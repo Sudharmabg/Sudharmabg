@@ -37,9 +37,9 @@ Logo
 - Deploy: Vercel
 
 ## Homepage sections
-**Page order (decided 2026-10-26):** Hero → 01 About → 02 Work → 03 Experience → 04 Contact → Footer.
+**Page order (decided 2026-10-26):** Hero → 01 About → 02 Work → 03 Lab → 04 Experience → 05 Contact → Footer. (Lab added 2026-10-26.)
 
-**Navbar:** About · Work · Experience · Contact, in page order.
+**Navbar:** About · Work · Lab · Experience · Contact, in page order.
 
 **Merged About:** Impact strip, Intro and Expertise are merged into one **About** section — a short bio, a 4-row expertise accordion where each row links to its proof, and a slim stack marquee. There is no separate impact strip, because Experience already carries the numbers. Items 2–4 below are superseded by this; they're kept for reference.
 
@@ -60,7 +60,11 @@ Logo
      - Release past 22% of its width, or flick faster than 650 px/s, and it arcs away to the back of the deck; otherwise it springs home.
      - Arrows, dots, ←/→ keys and `#project-<slug>` links (which bring that card to the front) work too.
    - **Card size:** one card at a time, full content width. Height `clamp(34rem, 100svh − 11rem, 44rem)`, so the whole card fits on screen on desktop and phones.
-   - **Cards:** `ProductCard`, `ClientCard`, `BuildCard` share `cardShell.js`: visual | details on desktop, visual on top on phones. Phone copy is clamped so the card fits.
+   - **Cards:** `ProductCard`, `ClientCard`, `BuildCard` share `cardShell.js`: visual | details on desktop, visual on top on phones. Phone copy is clamped so the card fits; if copy still runs long it fades out at the bottom, and the link row is always visible. Long client names use `shortTitle` below `lg`. A one-card deck has no drag or controls; an empty tier is left out.
+   - **Full-page scroll (2026-10-26):** screenshots with `media.full` glide through the whole homepage on mouse hover; on touch they play once when the front card is mostly in view. `npm run capture` stitches `full.webp` screen by screen and cuts `desktop.webp` from its top so the swap is seamless.
+   - **Project pages:** `/projects/:slug` (`pages/ProjectPage.jsx`), prerendered per project and listed in the sitemap. Card screenshot / "View project" opens it with a view transition: the frame morphs into the page hero (`view-transition-name: shot-<slug>` / `phone-<slug>`). "All work" returns to `/#project-<slug>`.
+   - **Context cursor:** mouse-only label beside the system cursor for elements with `data-cursor` ("Drag" on the front card, "View" on screenshots, "Next" on the next-project link).
+   - **Stress test (dev only):** `/?data=worst|one|empty` swaps in `src/data/projects.worst.js`, with a switch at the bottom of the screen.
    - This replaces the earlier rows, the expanding rail and the scroll carousel; the tier plans below still describe the content.
 6. **Experience — "Seasons"** (built): Season 2 · Hatchlab Innovations (Jan 2026–), Season 1 · Altisource (Dec 2020–Nov 2025).
    - **Header:** a "Now streaming" / "Completed" badge, dates with a duration computed live, and a watch-progress bar.
@@ -100,6 +104,13 @@ Logo
 - **Role:** designed the site, built the frontend, deployment & SEO.
 - **Visual:** desktop + phone screenshots.
 - **Metrics** (Google Search Console, Jul 25 – Oct 25, 2026; always shown with that window): 27.4K search impressions · 1.06K clicks · 3.9% CTR · average position 6.6.
+- **Links:** Live.
+
+**Techno India Manchester City Football School** — https://www.tigmancity.com
+- **What it is:** site for a Kolkata youth football academy with City Football Group (programmes, coaches, tryout booking).
+- **Badges:** `Client · Hatchlab`.
+- **Role:** UI design, frontend, deployment (confirmed by the user). No metrics until the user provides them.
+- **Visual:** desktop + phone screenshots.
 - **Links:** Live.
 
 **Hatchlab Innovations** — https://hatchlabinnovations.com

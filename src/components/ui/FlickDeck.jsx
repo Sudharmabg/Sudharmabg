@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { createContext, useCallback, useEffect, useRef, useState } from 'react'
 import { animate, motion, useMotionValue, useTransform } from 'motion/react'
 import useReducedMotion from '../../hooks/useReducedMotion.js'
 
@@ -18,6 +18,9 @@ const FAN = [
 const BURIED = { x: 0, y: 38, rotate: 0, scale: 0.88, opacity: 0 }
 
 const pad = (n) => String(n).padStart(2, '0')
+
+// Lets a card's contents know whether it is the front card (outside a deck, everything is "front")
+export const DeckFrontContext = createContext(true)
 
 export default function FlickDeck({ items, getId, renderCard, label, heightClass }) {
   const [order, setOrder] = useState(() => items.map((_, i) => i)) // order[0] is the front card
@@ -52,13 +55,15 @@ export default function FlickDeck({ items, getId, renderCard, label, heightClass
   }
 
   const front = order[0]
+  // A lone card has nowhere to go: flicking it would send it off-screen with nothing behind it
+  const single = items.length < 2
 
   return (
     <div role="region" aria-roledescription="carousel" aria-label={label}>
       <div
-        tabIndex={0}
-        onKeyDown={onKeyDown}
-        aria-label={`${label}: use the left and right arrow keys to change card`}
+        tabIndex={single ? undefined : 0}
+        onKeyDown={single ? undefined : onKeyDown}
+        aria-label={single ? undefined : `${label}: use the left and right arrow keys to change card`}
         className="relative rounded-3xl pb-10 outline-offset-8 [perspective:1800px]"
       >
         <div className={`relative ${heightClass}`}>
@@ -66,6 +71,7 @@ export default function FlickDeck({ items, getId, renderCard, label, heightClass
             <DeckCard
               key={getId(items[itemIndex])}
               depth={depth}
+              draggable={!single}
               slideLabel={`${itemIndex + 1} of ${items.length}`}
               onGone={sendFrontToBack}
               registerFly={depth === 0 ? (fn) => (flyFront.current = fn) : undefined}
@@ -76,39 +82,42 @@ export default function FlickDeck({ items, getId, renderCard, label, heightClass
         </div>
       </div>
 
-      <div className="flex items-center justify-between gap-4">
-        <div className="flex items-center gap-4">
-          <span className="font-mono text-xs text-muted" aria-live="polite">
-            <span className="text-ink">{pad(front + 1)}</span> / {pad(items.length)}
-          </span>
-          <span className="flex gap-1.5">
-            {items.map((it, i) => (
-              <button
-                key={getId(it)}
-                type="button"
-                onClick={() => show(i)}
-                aria-label={`Show card ${i + 1}`}
-                aria-current={i === front || undefined}
-                className="grid h-6 place-items-center"
-              >
-                <span className={`block h-1 rounded-full transition-all duration-300 ${i === front ? 'w-6 bg-lime' : 'w-2 bg-line hover:bg-muted'}`} />
-              </button>
-            ))}
-          </span>
-          <span className="kicker hidden sm:inline">Drag or flick the card</span>
+      {!single && (
+        <div className="flex items-center justify-between gap-4">
+          <div className="flex items-center gap-4">
+            <span className="font-mono text-xs text-muted" aria-live="polite">
+              <span className="text-ink">{pad(front + 1)}</span> / {pad(items.length)}
+            </span>
+            <span className="flex gap-1.5">
+              {items.map((it, i) => (
+                <button
+                  key={getId(it)}
+                  type="button"
+                  onClick={() => show(i)}
+                  aria-label={`Show card ${i + 1}`}
+                  aria-current={i === front || undefined}
+                  className="grid h-6 place-items-center"
+                >
+                  <span className={`block h-1 rounded-full transition-all duration-300 ${i === front ? 'w-6 bg-lime' : 'w-2 bg-line hover:bg-muted'}`} />
+                </button>
+              ))}
+            </span>
+            <span className="kicker hidden sm:inline">Drag or flick the card</span>
+          </div>
+          <div className="flex gap-2">
+            <ArrowButton dir="prev" onClick={prev} />
+            <ArrowButton dir="next" onClick={next} />
+          </div>
         </div>
-        <div className="flex gap-2">
-          <ArrowButton dir="prev" onClick={prev} />
-          <ArrowButton dir="next" onClick={next} />
-        </div>
-      </div>
+      )}
     </div>
   )
 }
 
-function DeckCard({ depth, slideLabel, onGone, registerFly, children }) {
+function DeckCard({ depth, draggable, slideLabel, onGone, registerFly, children }) {
   const reduced = useReducedMotion()
   const isFront = depth === 0
+  const canDrag = isFront && draggable
   const x = useMotionValue(0)
   const tilt = useTransform(x, [-500, 0, 500], [-14, 0, 14])
   const cardRef = useRef(null)
@@ -156,9 +165,10 @@ function DeckCard({ depth, slideLabel, onGone, registerFly, children }) {
     >
       <motion.div
         ref={cardRef}
-        className={`h-full ${isFront ? 'cursor-grab select-none active:cursor-grabbing' : ''}`}
+        className={`h-full ${canDrag ? 'cursor-grab select-none active:cursor-grabbing' : ''}`}
         style={{ x, rotate: tilt }}
-        drag={isFront ? 'x' : false}
+        data-cursor={canDrag ? 'Drag' : undefined}
+        drag={canDrag ? 'x' : false}
         dragMomentum={false}
         onPointerDown={() => (dragged.current = false)}
         onDragStart={() => (dragged.current = true)}
@@ -171,7 +181,7 @@ function DeckCard({ depth, slideLabel, onGone, registerFly, children }) {
           }
         }}
       >
-        {children}
+        <DeckFrontContext.Provider value={isFront}>{children}</DeckFrontContext.Provider>
       </motion.div>
     </motion.div>
   )
@@ -183,7 +193,7 @@ function ArrowButton({ dir, onClick }) {
       type="button"
       onClick={onClick}
       aria-label={dir === 'prev' ? 'Previous card' : 'Next card'}
-      className="grid size-11 place-items-center rounded-full border border-line text-ink transition-colors hover:border-lime/60 hover:text-lime"
+      className="grid size-11 place-items-center rounded-full border border-line text-ink transition-[color,border-color,scale] active:scale-[0.94] active:duration-100 hover:border-lime/60 hover:text-lime"
     >
       <svg viewBox="0 0 16 16" fill="none" className={`size-4 ${dir === 'prev' ? 'rotate-180' : ''}`} aria-hidden="true">
         <path d="M3 8h10M8.5 3.5L13 8l-4.5 4.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />

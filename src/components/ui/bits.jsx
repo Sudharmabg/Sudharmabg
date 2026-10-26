@@ -1,4 +1,5 @@
 import { motion } from 'motion/react'
+import { Link } from 'react-router-dom'
 import { ArrowUpRight } from './icons.jsx'
 
 export function Badge({ children, tone = 'default' }) {
@@ -23,11 +24,25 @@ export function LinkPill({ href, children }) {
       href={href}
       target="_blank"
       rel="noreferrer"
-      className="inline-flex min-h-11 items-center gap-1.5 rounded-full border border-line px-4 text-sm text-ink transition-colors hover:border-lime hover:text-lime"
+      className="inline-flex min-h-11 items-center gap-1.5 rounded-full border border-line px-4 text-sm text-ink transition-[color,border-color,scale] active:scale-[0.97] active:duration-100 hover:border-lime hover:text-lime"
     >
       {children}
       <ArrowUpRight className="size-3.5" />
     </a>
+  )
+}
+
+// Internal counterpart of LinkPill: lime, arrow pointing on, and a view transition into the page
+export function PagePill({ to, children }) {
+  return (
+    <Link
+      to={to}
+      viewTransition
+      className="inline-flex min-h-11 items-center gap-1.5 rounded-full border border-lime/50 bg-lime/[0.07] px-4 text-sm text-lime transition-[color,border-color,background-color,scale] active:scale-[0.97] active:duration-100 hover:border-lime hover:bg-lime/15"
+    >
+      {children}
+      <ArrowUpRight className="size-3.5 rotate-45" />
+    </Link>
   )
 }
 

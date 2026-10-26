@@ -216,7 +216,7 @@ function SendButton({ status }) {
     <button
       type="submit"
       disabled={sending || sent}
-      className={`group relative inline-flex min-h-12 items-center gap-4 rounded-full border py-1.5 pr-1.5 pl-6 text-sm font-medium transition-colors duration-300 disabled:cursor-wait ${
+      className={`group relative inline-flex min-h-12 items-center gap-4 rounded-full border py-1.5 pr-1.5 pl-6 text-sm font-medium transition-[color,background-color,border-color,scale] duration-300 active:scale-[0.97] active:duration-100 disabled:cursor-wait ${
         sent ? 'border-lime/40 bg-lime/10 text-lime' : 'border-ink bg-ink text-page hover:bg-white'
       }`}
     >

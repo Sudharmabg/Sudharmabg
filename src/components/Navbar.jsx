@@ -27,7 +27,7 @@ export default function Navbar() {
 
   return (
     <header
-      className={`fixed inset-x-0 top-0 z-50 border-b transition-colors duration-300 ${
+      className={`fixed inset-x-0 top-0 z-50 border-b pt-[env(safe-area-inset-top)] pr-[env(safe-area-inset-right)] pl-[env(safe-area-inset-left)] transition-colors duration-300 ${
         solid ? 'border-line bg-page/75 backdrop-blur-md' : 'border-transparent'
       }`}
     >
@@ -51,7 +51,8 @@ export default function Navbar() {
               )}
               <a
                 href={`/${link.href}`}
-                onMouseEnter={() => setHovered(link.href)}
+                // Mouse only: a tap on a tablet would leave the highlight stuck on the tapped link
+                onPointerEnter={(e) => e.pointerType === 'mouse' && setHovered(link.href)}
                 onFocus={() => setHovered(link.href)}
                 onBlur={() => setHovered(null)}
                 className="relative block rounded-full px-4 py-2 text-sm text-ink/80 transition-colors duration-200 hover:text-ink focus-visible:text-ink"
@@ -73,7 +74,7 @@ export default function Navbar() {
           </a>
           <button
             type="button"
-            className="grid size-10 place-items-center rounded-full border border-line md:hidden"
+            className="grid size-10 place-items-center rounded-full border border-line transition-transform duration-100 active:scale-[0.94] md:hidden"
             aria-expanded={open}
             aria-controls="mobile-menu"
             aria-label={open ? 'Close menu' : 'Open menu'}

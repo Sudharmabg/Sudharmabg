@@ -56,12 +56,16 @@ const outcomeTones = {
 
 export default function FlowDiagram({ type, className = '' }) {
   const flow = flows[type]
-  if (!flow) return null
+  const frame = `relative overflow-hidden rounded-xl border border-line bg-page p-4 md:p-5 ${className}`
+  const dots = { backgroundImage: 'radial-gradient(rgb(242 242 242 / 0.06) 1px, transparent 1px)', backgroundSize: '16px 16px' }
+
+  // No diagram drawn for this build yet: keep the dotted panel so the card isn't left with a hole
+  if (!flow) return <div aria-hidden="true" className={`${frame} aspect-[4/3]`} style={dots} />
 
   return (
     <div
-      className={`relative overflow-hidden rounded-xl border border-line bg-page p-4 md:p-5 ${className}`}
-      style={{ backgroundImage: 'radial-gradient(rgb(242 242 242 / 0.06) 1px, transparent 1px)', backgroundSize: '16px 16px' }}
+      className={frame}
+      style={dots}
       role="img"
       aria-label={`${flow.caption}: ${flow.steps.map((s) => s.label).join(', then ')}`}
     >

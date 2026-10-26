@@ -21,11 +21,30 @@
   html {
     color-scheme: dark;
     scroll-behavior: smooth;
+    /* Mobile: no grey tap flash (controls have their own :active), no font inflation in landscape */
+    -webkit-tap-highlight-color: transparent;
+    -webkit-text-size-adjust: 100%;
+    /* viewport-fit=cover: anchor jumps clear the notch as well as the fixed header */
+    scroll-padding-top: env(safe-area-inset-top, 0px);
   }
 
   body {
     @apply bg-page text-ink font-sans antialiased;
     text-rendering: optimizeLegibility;
+    /* Landscape phones: keep content out from under the notch */
+    padding-inline: env(safe-area-inset-left, 0px) env(safe-area-inset-right, 0px);
+  }
+
+  /* Controls fire on tap with no double-tap-zoom wait, and a long press doesn't select their label */
+  a,
+  button,
+  [role="button"] {
+    touch-action: manipulation;
+  }
+  button,
+  [role="button"] {
+    user-select: none;
+    -webkit-user-select: none;
   }
 
   ::selection {
@@ -76,6 +95,24 @@
   scrollbar-width: none;
   &::-webkit-scrollbar {
     display: none;
+  }
+}
+
+/* Card → project page: the shared screenshot frame morphs between the two (view-transition-name set
+   inline); everything else cross-fades. Reduced motion gets an instant switch. */
+::view-transition-group(*) {
+  animation-duration: 550ms;
+  animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+}
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 300ms;
+}
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
   }
 }
 

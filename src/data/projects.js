@@ -54,6 +54,7 @@ export const projects = [
     links: [{ label: 'Live site', href: 'https://ambisprout.com' }],
     media: {
       desktop: '/projects/ambisprout/desktop.webp',
+      full: '/projects/ambisprout/full.webp',
       phone: '/projects/ambisprout/phone.webp',
       url: 'ambisprout.com',
       alt: "AmbiSprout homepage: India's AI-Powered Sustainability Companion, with mission, streak, impact and coin cards around the Sprout mascot",
@@ -78,9 +79,29 @@ export const projects = [
     links: [{ label: 'Live site', href: 'https://www.tigworldschools.com' }],
     media: {
       desktop: '/projects/tigws/desktop.webp',
+      full: '/projects/tigws/full.webp',
       phone: '/projects/tigws/phone.webp',
       url: 'tigworldschools.com',
       alt: 'Techno India Group World School homepage with a photo of the campus lobby and an admission enquiry button',
+    },
+  },
+  {
+    slug: 'tigmancity',
+    tier: 'client',
+    title: 'Techno India Manchester City Football School',
+    shortTitle: 'TI Man City Football School',
+    summary:
+      'Website for a Kolkata youth football academy run with City Football Group. Programmes for ages 3–17, coach profiles and tryout bookings.',
+    badges: ['Client · Hatchlab'],
+    role: 'UI design · Frontend · Deployment',
+    stack: ['UI design', 'Frontend', 'Responsive', 'Deployment'],
+    links: [{ label: 'Live site', href: 'https://www.tigmancity.com' }],
+    media: {
+      desktop: '/projects/tigmancity/desktop.webp',
+      full: '/projects/tigmancity/full.webp',
+      phone: '/projects/tigmancity/phone.webp',
+      url: 'tigmancity.com',
+      alt: 'Techno India Manchester City Football School homepage: a young player in a Manchester City kit posing with a ball, with a "Book Tryouts" button in the nav',
     },
   },
   {
@@ -95,6 +116,7 @@ export const projects = [
     links: [{ label: 'Live site', href: 'https://hatchlabinnovations.com' }],
     media: {
       desktop: '/projects/hatchlab/desktop.webp',
+      full: '/projects/hatchlab/full.webp',
       phone: '/projects/hatchlab/phone.webp',
       url: 'hatchlabinnovations.com',
       alt: 'Hatchlab Innovations homepage: "Where Big Ideas Meet Cool Tech & Pro Guidance" over a dark constellation background',
@@ -152,3 +174,6 @@ export const projects = [
     visual: 'payflow',
   },
 ]
+
+// All projects in page order (tier by tier), as numbered on the cards and walked by "Next project"
+export const projectsInOrder = tiers.flatMap((t) => projects.filter((p) => p.tier === t.id))

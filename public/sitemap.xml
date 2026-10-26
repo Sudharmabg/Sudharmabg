@@ -1,8 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Add a <url> per case-study page (/projects/<slug>) once they exist. -->
+<!-- One <url> per page: the homepage and each /projects/<slug> page. -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://sudharmabg.vercel.app/</loc>
+    <lastmod>2026-10-26</lastmod>
+  </url>
+  <url>
+    <loc>https://sudharmabg.vercel.app/projects/causeline</loc>
+    <lastmod>2026-10-26</lastmod>
+  </url>
+  <url>
+    <loc>https://sudharmabg.vercel.app/projects/ambisprout</loc>
+    <lastmod>2026-10-26</lastmod>
+  </url>
+  <url>
+    <loc>https://sudharmabg.vercel.app/projects/tigws</loc>
+    <lastmod>2026-10-26</lastmod>
+  </url>
+  <url>
+    <loc>https://sudharmabg.vercel.app/projects/tigmancity</loc>
+    <lastmod>2026-10-26</lastmod>
+  </url>
+  <url>
+    <loc>https://sudharmabg.vercel.app/projects/hatchlab</loc>
+    <lastmod>2026-10-26</lastmod>
+  </url>
+  <url>
+    <loc>https://sudharmabg.vercel.app/projects/spring-ai-firewall</loc>
+    <lastmod>2026-10-26</lastmod>
+  </url>
+  <url>
+    <loc>https://sudharmabg.vercel.app/projects/taskhive</loc>
+    <lastmod>2026-10-26</lastmod>
+  </url>
+  <url>
+    <loc>https://sudharmabg.vercel.app/projects/payflow</loc>
     <lastmod>2026-10-26</lastmod>
   </url>
 </urlset>
