@@ -1,0 +1,105 @@
+@import "tailwindcss";
+
+/* Design tokens — see DESIGN.md */
+@theme {
+  --color-page: #0b0b0b;
+  --color-surface: #151515;
+  --color-line: #262626;
+  --color-ink: #f2f2f2;
+  --color-muted: #8a8a8a;
+  --color-lime: #c6ff3d;
+
+  --font-display: "Clash Display", "General Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Instrument Serif", ui-serif, Georgia, serif;
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@layer base {
+  html {
+    color-scheme: dark;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-page text-ink font-sans antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    @apply bg-lime text-page;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-lime);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+/* Hero name on one line: "SUDHARMA BG" in Clash Display is ~7.43em wide, so size it to span the content
+   column (÷7.6 leaves room for the scrollbar; the cap is the 1320px column at 1400px max width). */
+@utility hero-name {
+  font-size: min(calc((100vw - 3rem) / 7.6), 10.8rem);
+  @variant md {
+    font-size: min(calc((100vw - 6rem) / 7.6), 10.8rem);
+  }
+}
+
+/* Clash Display ships a very narrow space; open it up so multi-word headings don't run together */
+@layer utilities {
+  .font-display {
+    word-spacing: 0.12em;
+  }
+}
+
+@utility kicker {
+  @apply font-mono text-[11px] uppercase tracking-[0.18em] text-muted;
+}
+
+@utility scrollbar-none {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* A packet travelling down a flow diagram's spine */
+@keyframes flow-down {
+  0% { top: 0%; opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { top: 100%; opacity: 0; }
+}
+
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes ring-spin {
+  to {
+    transform: rotate(1turn);
+  }
+}
+
+@keyframes pulse-dot {
+  0%, 100% { box-shadow: 0 0 0 0 rgb(198 255 61 / 0.55); }
+  70% { box-shadow: 0 0 0 7px rgb(198 255 61 / 0); }
+}
