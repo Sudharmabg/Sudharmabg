@@ -30,11 +30,13 @@ export default function ClientCard({ project, index }) {
         <div className={detailsBody}>
           <div className="flex flex-wrap items-center gap-2">
             <span className="mr-2 font-mono text-xs text-muted">{String(index).padStart(2, '0')}</span>
-            {badges.map((b) => (
-              <Badge key={b} tone="lime">
-                {b}
-              </Badge>
-            ))}
+            <span className="hidden md:contents">
+              {badges.map((b) => (
+                <Badge key={b} tone="lime">
+                  {b}
+                </Badge>
+              ))}
+            </span>
           </div>
 
           {/* Long client names use their short form until the card has room */}
@@ -42,15 +44,15 @@ export default function ClientCard({ project, index }) {
             <span className="lg:hidden">{shortTitle ?? title}</span>
             <span className="hidden lg:inline">{title}</span>
           </h3>
-          <p className="mt-3 line-clamp-2 text-[15px] leading-relaxed text-muted lg:mt-4 lg:line-clamp-none">{summary}</p>
+          <p className="mt-3 hidden text-[15px] leading-relaxed text-muted md:line-clamp-2 lg:mt-4 lg:line-clamp-none">{summary}</p>
 
-          <p className="mt-3 text-sm lg:mt-4">
+          <p className="mt-3 hidden text-sm md:block lg:mt-4">
             <span className="kicker mr-2">Role</span>
             <span className="text-ink/85">{role}</span>
           </p>
 
           {metrics && (
-            <div className="mt-4 border-t border-line pt-4 lg:mt-6 lg:pt-5">
+            <div className="mt-4 hidden border-t border-line pt-4 md:block lg:mt-6 lg:pt-5">
               <dl className="grid gap-3" style={{ gridTemplateColumns: `repeat(${metricCols}, minmax(0, 1fr))` }}>
                 {metrics.map((m) => (
                   // dt must come first in the DOM; flex-col-reverse shows the value on top

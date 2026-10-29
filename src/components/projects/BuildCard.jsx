@@ -31,7 +31,7 @@ export default function BuildCard({ project, index }) {
             <span className="font-serif font-normal tracking-normal text-lime italic">{titleAccent}</span>
           </h3>
 
-          <p className="mt-3.5 line-clamp-3 text-[15px] leading-relaxed text-muted lg:mt-5 lg:line-clamp-none">{summary}</p>
+          <p className="mt-3.5 hidden text-[15px] leading-relaxed text-muted md:line-clamp-3 lg:mt-5 lg:line-clamp-none">{summary}</p>
 
           <ul className="mt-5 hidden space-y-2 lg:block">
             {highlights.map((h) => (

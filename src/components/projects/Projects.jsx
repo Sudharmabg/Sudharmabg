@@ -13,9 +13,9 @@ const projects = import.meta.env.DEV ? (fixtures[currentDataState()] ?? demoProj
 const byTier = (id) => projects.filter((p) => p.tier === id)
 const cardId = (p) => `project-${p.slug}`
 
-// One card fills the content width and the whole card fits on screen
-// (viewport minus navbar and deck controls), on desktop and phones.
-const DECK_HEIGHT = 'h-[clamp(34rem,calc(100svh-11rem),44rem)]'
+// One card fills the content width and the whole card fits on screen (viewport minus navbar and
+// deck controls). Phone cards carry only title and links, so they are shorter.
+const DECK_HEIGHT = 'h-[clamp(26rem,calc(100svh-13rem),32rem)] md:h-[clamp(34rem,calc(100svh-11rem),44rem)]'
 
 export default function Projects() {
   const products = byTier('products')

@@ -4,7 +4,7 @@ import { BrowserFrame, PhoneFrame } from '../ui/DeviceFrames.jsx'
 import { cardShell, detailsBody, detailsPane, linkRow, visualPane } from './cardShell.js'
 
 // Full-size deck card for a product Sudharma built: screenshot | pitch.
-// Story, highlights and stack show on desktop; phones keep the pitch short so the card fits.
+// Story, highlights and stack show on desktop; phones show just the title and links.
 export default function ProductCard({ project, index }) {
   const { slug, title, tagline, summary, story, badges, highlights, stack, links, media } = project
 
@@ -29,19 +29,21 @@ export default function ProductCard({ project, index }) {
         <div className={detailsBody}>
           <div className="flex flex-wrap items-center gap-2">
             <span className="mr-2 font-mono text-xs text-muted">{String(index).padStart(2, '0')}</span>
-            {badges.map((b, i) => (
-              <Badge key={b} tone={i === 0 ? 'lime' : 'default'}>
-                {b}
-              </Badge>
-            ))}
+            <span className="hidden md:contents">
+              {badges.map((b, i) => (
+                <Badge key={b} tone={i === 0 ? 'lime' : 'default'}>
+                  {b}
+                </Badge>
+              ))}
+            </span>
           </div>
 
           <h3 className="mt-3 font-display text-[clamp(2rem,3.4vw,3rem)] leading-none font-semibold tracking-[-0.03em] lg:mt-5">{title}</h3>
-          <p className="mt-2.5 font-display text-lg font-medium tracking-[-0.01em] text-ink/90 lg:text-xl">
+          <p className="mt-2.5 hidden font-display text-lg font-medium tracking-[-0.01em] text-ink/90 md:block lg:text-xl">
             {tagline[0]} <span className="font-serif font-normal tracking-normal text-lime italic">{tagline[1]}</span>
           </p>
 
-          <p className="mt-3.5 line-clamp-3 text-[15px] leading-relaxed text-muted lg:mt-5 lg:line-clamp-none">{summary}</p>
+          <p className="mt-3.5 hidden text-[15px] leading-relaxed text-muted md:line-clamp-3 lg:mt-5 lg:line-clamp-none">{summary}</p>
 
           {story && (
             <p className="mt-5 hidden border-l-2 border-lime/60 pl-4 text-[15px] leading-relaxed text-ink/85 italic xl:block">{story}</p>
